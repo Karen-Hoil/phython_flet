@@ -1,4 +1,3 @@
-from typing import Any, List, Optional, Union
 import flet
 from flet import (
     Page,
@@ -18,10 +17,6 @@ from flet import (
     Text,
     OutlinedButton
 )
-from flet_core.control import Control, OptionalNumber
-from flet_core.ref import Ref
-
-
 class TodoApp(UserControl):
     def build(self):
         self.txt_tarea = TextField(hint_text="¿Qué necesitas hacer?", expand=True)

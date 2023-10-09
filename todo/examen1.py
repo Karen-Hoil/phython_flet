@@ -7,51 +7,29 @@ def main(page: ft.Page):
     page.scroll_to = True
     page.window_title = "Juega piedra, papel o tijera!!!"
 
+    op = ["piedra", "papel", "tijera"]
+    computer = random.choice(op)
 
-    nombre = ft.TextField(
-            label="Nombre : ",
-            width=600)
-    player = ft.TextField(
-            label="Elige una opcion: piedra, papel o tijera",
-            width=600)
-    
-    btn_calcular = ft.ElevatedButton(
-    text="Calcular",
-    on_click= calcular,
-    bgcolor=ft.colors.BLUE_GREY_100,
-    color=ft.colors.BLACK,
-    width=100,
-    style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=10), ),
-    )
-    btn_guardar = ft.ElevatedButton(
-    text="Guardar",
-    on_click= limpiar,
-    bgcolor=ft.colors.BLUE_GREY_100,
-    color=ft.colors.BLACK,
-    width=100,
-    style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=10), ),
-    )
-
-    a_text = ft.Text(f"{nombre} empataste contra la computadora", style=ft.TextThemeStyle.TITLE_LARGE)
+    a_text = ft.Text("Empataste contra la computadora", style=ft.TextThemeStyle.TITLE_LARGE)
     a_alter = ft.Text("Ambos escogieron lo mismo", style=ft.TextThemeStyle.TITLE_SMALL)
 
-    b_text = ft.Text(f"{nombre} perdiste contra la computadora", style=ft.TextThemeStyle.TITLE_LARGE)
-    b_alter = ft.Text(f"Tú escogiste {player} y la computadora papel", style=ft.TextThemeStyle.TITLE_SMALL)
+    b_text = ft.Text("Perdiste contra la computadora", style=ft.TextThemeStyle.TITLE_LARGE)
+    b_alter = ft.Text("Tú escogiste piedra y la computadora papel", style=ft.TextThemeStyle.TITLE_SMALL)
 
-    c_text = ft.Text(f"{nombre} ganaste contra la computadora", style=ft.TextThemeStyle.TITLE_LARGE)
-    c_alter = ft.Text(f"Tú escogiste {player} y la computadora papel", style=ft.TextThemeStyle.TITLE_SMALL)
+    c_text = ft.Text("Ganaste contra la computadora", style=ft.TextThemeStyle.TITLE_LARGE)
+    c_alter = ft.Text("Tú escogiste tijera y la computadora papel", style=ft.TextThemeStyle.TITLE_SMALL)
 
-    d_text = ft.Text(f"{nombre} perdiste contra la computadora", style=ft.TextThemeStyle.TITLE_LARGE)
-    d_alter = ft.Text(f"Tú escogiste {player} y la computadora piedra", style=ft.TextThemeStyle.TITLE_SMALL)
+    d_text = ft.Text("Perdiste contra la computadora", style=ft.TextThemeStyle.TITLE_LARGE)
+    d_alter = ft.Text("Tú escogiste tijera y la computadora piedra", style=ft.TextThemeStyle.TITLE_SMALL)
 
-    e_text = ft.Text(f"{nombre} ganaste contra la computadora", style=ft.TextThemeStyle.TITLE_LARGE)
-    e_alter = ft.Text(f"Tú escogiste {player} y la computadora piedra", style=ft.TextThemeStyle.TITLE_SMALL)
+    e_text = ft.Text("Ganaste contra la computadora", style=ft.TextThemeStyle.TITLE_LARGE)
+    e_alter = ft.Text("Tú escogiste papel y la computadora piedra", style=ft.TextThemeStyle.TITLE_SMALL)
 
-    f_text = ft.Text(f"{nombre} perdiste contra la computadora", style=ft.TextThemeStyle.TITLE_LARGE)
-    f_alter = ft.Text(f"Tú escogiste {player} y la computadora tijera", style=ft.TextThemeStyle.TITLE_SMALL)
+    f_text = ft.Text("Perdiste contra la computadora", style=ft.TextThemeStyle.TITLE_LARGE)
+    f_alter = ft.Text("Tú escogiste papel y la computadora tijera", style=ft.TextThemeStyle.TITLE_SMALL)
 
-    g_text = ft.Text(f"{nombre} ganaste contra la computadora", style=ft.TextThemeStyle.TITLE_LARGE)
-    g_alter = ft.Text(f"Tú escogiste {player} y la computadora tijera", style=ft.TextThemeStyle.TITLE_SMALL)
+    g_text = ft.Text("Ganaste contra la computadora", style=ft.TextThemeStyle.TITLE_LARGE)
+    g_alter = ft.Text("Tú escogiste piedra y la computadora tijera", style=ft.TextThemeStyle.TITLE_SMALL)
 
     a =ft.Column(
         controls=[a_text, a_alter],
@@ -69,7 +47,7 @@ def main(page: ft.Page):
         controls=[d_text, d_alter],
         scroll=ft.ScrollMode.ALWAYS
     )
-    e =ft.Column(
+    e2 =ft.Column(
         controls=[e_text, e_alter],
         scroll=ft.ScrollMode.ALWAYS
     )
@@ -86,11 +64,84 @@ def main(page: ft.Page):
     b.visible=False
     c.visible=False
     d.visible=False
-    e.visible=False
+    e2.visible=False
     f.visible=False
     g.visible=False
 
+    def calcularJuego(e):
+        empate = (player.value == computer)
+        perdistePapel = (computer == "papel" and player.value == "piedra")
+        ganastePapel = (computer == "papel" and player.value == "piedra")
+        perdistePiedra = (computer == "piedra" and player.value == "papel")
+        ganastePiedra = (computer == "piedra" and player.value == "tijera")
+        perdisteTijera = (computer == "tijera" and player.value == "papel")
+        ganasteTijera = (computer == "tijera" and player.value == "piedra")
 
+        if empate:
+            a.visible= True
+            page.update()
+        elif perdistePapel:
+            b.visible = True
+            page.update()
+        elif ganastePapel:
+            c.visible = True
+            page.update()
+        elif perdistePiedra:
+            d.visible= True
+            page.update()
+        elif ganastePiedra:
+            e2.visible = True
+            page.update()
+        elif perdisteTijera:
+            f.visible = True
+            page.update()
+        elif ganasteTijera:
+            g.visible = True
+            page.update()
+
+        page.update()
+
+    def limpiar(e):
+        calcularJuego(e)
+        r = ft.Text(f"{nombre.value} elegiste {player.value} y la computadora eligio {computer}", style=ft.TextThemeStyle.TITLE_LARGE)
+        page.controls.append(r)
+        nombre.value= ''
+        player.value=''
+        a.visible=False
+        b.visible=False
+        c.visible=False
+        d.visible=False
+        e2.visible=False
+        f.visible=False
+        g.visible=False
+        page.update()
+
+
+    nombre = ft.TextField(
+            label="Nombre : ",
+            expand= True)
+    player = ft.TextField(
+            label="Elige una opcion: piedra, papel o tijera",
+            expand= True)
+    
+    btn_calcular = ft.ElevatedButton(
+    text="Calcular",
+    on_click= calcularJuego,
+    bgcolor=ft.colors.BLUE_GREY_100,
+    color=ft.colors.BLACK,
+    expand=1,
+    width=100,
+    style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=10), ),
+    )
+    btn_guardar = ft.ElevatedButton(
+    text="Guardar",
+    on_click= limpiar,
+    bgcolor=ft.colors.BLUE_GREY_100,
+    color=ft.colors.BLACK,
+    expand=1,
+    width=100,
+    style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=10), ),
+    )
     r1= ft.Row(
         controls=[nombre]
     )
@@ -101,54 +152,7 @@ def main(page: ft.Page):
         controls=[btn_calcular, btn_guardar]
     )
 
-    def calcular(e):
-        op = ["piedra", "papel", "tijera"]
-        computer = random.choice(op)
 
-        empate = (player == computer)
-        perdistePapel = (computer == 'papel' and player == 'piedra')
-        ganastePapel = (computer == 'papel' and player == 'tijera')
-        perdistePiedra = (computer == 'piedra' and player == 'papel')
-        ganastePiedra = (computer == 'piedra' and player == 'tijera')
-        perdisteTijera = (computer == 'tijera' and player == 'papel')
-        ganasteTijera = (computer == 'tijera' and player == 'piedra')
-
-        if empate:
-            a.visible = True
-            page.update()
-        elif perdistePapel:
-            b.visible = True
-            page.update()
-        elif ganastePapel:
-            c.visible = True
-            page.update()
-        elif perdistePiedra:
-            d.visible = True
-            page.update()
-        elif ganastePiedra:
-            e.visible = True
-            page.update()
-        elif perdisteTijera:
-            f.visible = True
-            page.update()
-        elif ganasteTijera:
-            g.visible = True
-            page.update()
-        
-        page.update()
-
-    def limpiar(e):
-        r = ft.Text(f"Nombre: {nombre} Elección: {player}", style=ft.TextThemeStyle.TITLE_LARGE)
-        page.controls.append(r)
-        player.value=''
-        a.visible=False
-        b.visible=False
-        c.visible=False
-        d.visible=False
-        e.visible=False
-        f.visible=False
-        g.visible=False
-        page.update()
 
     page.add(
         r1,
@@ -174,7 +178,7 @@ def main(page: ft.Page):
         b,
         c,
         d,
-        e,
+        e2,
         f,
         g
     )
